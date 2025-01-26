@@ -1,0 +1,28 @@
+Originally the methods that an interface defined were empty. However, starting from JDK 8, this has changed. Now,
+interfaces can contain two types of methods: default and static methods.
+
+A default method in an interface is a keyword used to define a default method of an interface that classes can
+implement, inheriting them and, if they want to, overwrite. A default method is different from a regular one
+in the sense that it does not have to be implemented by the inherited class. If the class that has implements the
+interface does not implement the default method, it will still be able to use it but with the implementation that
+was in the interface.
+
+Another advantage of these default methods is that now developers can add new methods to interface without
+making all the classes that implement them change.
+
+This also means that now interfaces not only define 'what' an object does, but also can be used to indicate
+'how'.
+
+It also opens the gate to ambiguity when implementing multiple interfaces. If a class has multiple inheritance,
+and the different interface have methods with the same signature, the class must specify which one of the methods
+it wants to implement.
+
+It is very important to note that interfaces, even after all these changes, are meant to be a way of describing
+what a class must do. The how is the abstract classes' duty. We do not want to break the single-responsibility
+principle (SRP).
+
+On the other hand, static methods are very similar to normal classes static methods. They can be used as
+auxiliary functions / utility functions associated to an interface, not a class. They do not need to be implemented
+by a class. We can call those methods directly from the interface.
+
+They are also useful to avoid creating helper classes and keep code associated to its concept (interface).

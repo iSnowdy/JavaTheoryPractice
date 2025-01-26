@@ -1,0 +1,12 @@
+Interfaces are a special type of class that define the behaviour of the classes that implement them.
+
+They kind of act as a blueprint.
+
+Interfaces are a way of achieving abstraction. They can have variables and methods.
+    - Variables -> they are public, static and final by default
+    - Methods -> they are abstract and public by default
+
+Therefore, interfaces are primarily used to define methods that other classes must implement.
+
+Classes cannot extend to more than one abstract class. However, they can implement multiple interfaces. This
+opens the gate to multiple inheritance.

@@ -1,0 +1,214 @@
+Computación distribuida
+No Sincronización dentro Computación Distribuida
+Conectados a una red de comunicaciones
+
+En el proceso de comunicacion distinguimos: mensjae, emisor, receptor, paquete, canal de comunicación y
+protocolo de comunicaciones
+
+Pila de protocolos: nivel de aplkicacion, nivel de transporte, nivel de internet, nivel de red
+
+
+Protocolo TCP. Protocolo orientado a conexión. Fases. Ejemplo habitual es TCP
+Protocolo UDP. Protocolo no orientado a conexón. Más rapidos. Ejemplo típico UDP, mensajes son datagramas.
+
+Sockets. Que son.
+DIrecciones.
+Puertos.
+Sockets stream. Proceso cliente, proceso servidor.
+Sockets datagram.
+
+Modelos de comunicación.
+
+Modelo cliente/servidor
+
+Modelo de comunicacion en grupo.
+
+Modelos hibridos. P2P.
+
+------
+
+
+-----------------------------------|
+Distributed Computing              |
+-----------------------------------|
+
+Distributed computing refers to a computing model where multiple independent systems (computers) collaborate to perform
+tasks. These systems are interconnected through a network of communications and share resources, data, or processing
+power to achieve common goals.
+
+The key features of distributed computing are:
+    1. Decentralization. Unlike centralized computing, no single system has the complete control. Tasks are distributed
+    among multiple nodes.
+    2. Scalability. It allows adding new nodes, aka computers, to improve performance and handle more tasks and/or
+    larger volumes of data.
+    3. Fault Tolerance. Distributed systems can continue to function even if some nodes fails, enhancing reliability.
+    4. Concurrency. Multiple tasks or processes run simultaneously across different nodes.
+    5. Heterogeneity. Nodes can have different hardware, operating systems, or configurations and still collaborate
+    effectively.
+
+It is true that synchronization in distributed systems is often challenging due tue nodes operating independently and
+communicating asynchronously. That leads to:
+    * Data consistency challenges. When multiple nodes work on shared data, ensuring consistency without strict
+    synchronization is complex.
+    * Event ordering issues. Determining the sequence of events in a distributed system is not straightforward at all.
+    * Communication delays. Due to network latency, synchronization is not guaranteed in real-time.
+
+Distributed systems rely on a communication network to facilitate data exchange between nodes. This network can be:
+    * Local Area Network (LAN). For systems in close proximity.
+    * Wide Area Network (WAN). For geographically dispersed systems.
+    * Internet. The most common medium for global distributed systems.
+
+
+-----------------------------------|
+Communication Process              |
+-----------------------------------|
+
+The communication process is composed of several parts:
+    1. Message. The message is the actual data transmitted between nodes. It can include instructions, requests,
+    responses or even raw data.
+    2. Sender / Emitter. The system or process initiating communication by transmitting a message.
+    3. Receiver. The system or process intended to receive the transmitted message.
+    4. Packet. Messages are often divided into smaller units called packets for transmission over a network. Each
+    packet must contain:
+        - Header. Metadata, like sender and receiver information.
+        - Payload. The actual data.
+        - Trailer. The error-checking information.
+    5. Communication Channel. The medium (e.g., cables, wireless networks...) through which packets are sent from sender
+    to receiver.
+    6. Communication Protocol. A set of rules that define how data is formatted, transmitted and interpreted during
+    communication. Protocols ensure that all systems "speak the same language".
+
+
+-----------------------------------|
+Protocol Stack                     |
+-----------------------------------|
+
+A protocol stack is a set of protocols working together, organized into layers, where each layer has a specific role
+in handling data transmission. These layers interact systematically to ensure that data is transmitted across networks
+efficiently and reliably.
+
+A protocol stack organizes communication protocols into layers, each with specific functions. These layers abstract
+complexity and ensures interoperability. The most commonly used stack is the TCP/IP model, which consists of:
+    1. Application Layer. Its the layer responsible for user-facing interactions and application-specific communication.
+    Examples: HTTP, FTP, SMTP.
+    It directly interacts with the end-user and provides certain services sch as file transfers and email. Its key
+    role is in preparing data for transmission by converting it into a format understandable by applications on both
+    ends.
+    2. Transport Layer. Ensures reliable and fast data transfer between sender and receiver. It also handles segmentation,
+    reassembly and error recovery. TCP and UDP.
+    It divides the data into smaller units, packets. Handles error detection and recovery and also controls the flow,
+    preventing sending too much information to the receiver.
+    3. Internet Layer. Manages addressing and routing of data packets across networks. IP.
+    It does so by using logical addressing. Assigns the IP addresses to devices and decides the best path for data to
+    travel between sender and receiver.
+    4. Network Access Layer. Handles physical data transfer between devices within the same network. Ethernet, Wi-Fi.
+
+Each layer performs its tasks and passes the data to the layer below or above, depending on whether the data is being
+sent or received (check the image in notes).
+
+    Sending: Application -> Transport -> Internet -> Network Access
+    Receiver: Network Access -> Internet -> Transport -> Application
+
+-----------------------------------|
+TCP                                |
+-----------------------------------|
+
+TCP or Transmission Control Protocol is a connection-oriented protocol, meaning it establishes a reliable connection
+between the two devices before transmitting data. This ensures that the data reaches its destination accurately and in
+the correct order.
+
+
+Key features:
+    - Reliability. Ensures all data packets are delivered without a loss.
+    - Ordered Delivery. Packets are to arrive at the destination in the same order they were sent.
+    - Error Checking. Verifies the integrity of data using checksums. A checksum is a value used to verify the integrity
+    of data during transmission or storage.
+    - Flow Control. Prevents one device from overwhelming another with to much data.
+    - Congestion Control. Adapts transmission speed based on network conditions.
+
+TCP communications are divided into a few stages:
+    1. Connection Establishment (Three-Way Handshake). Sender and receiver exchange SYN (synchronization) and ACK
+    (acknowledge) packets to establish a firm connection.
+    2. Data Transfer. Now that the connection has been established, data is divided into packets, numbered and then
+    sent. Receiver acknowledges each packet upon successful receipt. If a packet is lost, the sender retransmits it.
+    Packets are numbered to ensure proper reordering at the destination.
+    3. Connection Termination. A four-step process involving FIN (finish) and ACK packets to gracefully close the
+    connection.
+
+A handshake, in this context, refers to the process of establishing a connection between two devices or systems before
+communication begins. It ensures that both sides are ready to communicate and agree on parameters such as data format
+and speed. TCP uses a three-way handshake because it involves three steps: SYN, SYN-ACK and ACK:
+    SYN. The client sends a SYN packet to the server, indicating it wants o establish a connection and specifying its
+    initial sequence number.
+    SYN-ACK. The server responds with a SYN-ACK packet. This acknowledges the client's SYN and includes the server's
+    initial sequence number.
+    SYN. Finally, the client sends an ACK packet back to the server, confirming the receipt of the server's SYN-ACK
+
+    Now, a connection is established and data transfer can begin.
+
+This peculiar handshake ensures that devices are synchronized and ready to communicate. It also verifies that the
+network is operational and provides the initial sequence number for packet ordering.
+
+-----------------------------------|
+UDP                                |
+-----------------------------------|
+
+UDP or User Datagram Protocol is a connectionless protocol focused on speed and simplicity. Since it is a connectionless
+protocol, it does not establish a connection before sending data. It simply sends packets (datagrams) without waiting
+for acknowledgments or ensuring reliability.
+
+Its key features are:
+    - Does not guarantee reliability or packet order since it does not expects acknowledgment. Therefore, if a packet
+    is lost during transmission (e.g., due to network congestion) it will not be retransmitted. Packets may also arrive
+    out of order if they take different routes through the network.
+    - It also does not guarantee error correction.
+    - Ideal for applications where speed is critical, and occasional packet loss is acceptable.
+
+Messages are transmitted as datagrams, independent units of data that may arrive out of order or not at all.
+
+Its advantages upon TCP are that it eliminates the overhead of establishing connections, acknowledgements and
+retransmissions.
+
+-----------------------------------|
+Sockets                            |
+-----------------------------------|
+
+A socket is a software endpoint that enables communication between two processes over a network. It serves as an
+interface between the application and the underlying network protocol.
+
+Its components are:
+    * Address. Represents the unique identifier of a device in the network, typically an IP address.
+    * POrt. Identifies a specific application or service on the device.
+
+There are two types of sockets:
+    1. Stream Sockets. They use TCP for reliable communication. Commonly used for client-server applications.
+    2. Datagram Sockets. Used by UDP for a fast and connectionless communication. It allows sending packets of data
+    to a specific address without requiring a handshake.
+
+
+-----------------------------------|
+Communication Model                |
+-----------------------------------|
+
+There are a few communication models.
+
+Client/Server Model:
+    * The client requests resources or services from the server.
+    * The server processes those requests and sends a response.
+    * It is a centralized architecture. Examples: web servers, database servers.
+
+Group Communication Model:
+    * Multiple nodes exchange messages within a group.
+    * Often used for collaborative systems or multicast communication. Example: video conferencing applications.
+
+Hybryd Models (P2P):
+    * P2P or Peer-to-Peer system nodes act as both clients and servers.
+    * Resources are shared directly between peers without a central authority. Example: file-sharing networks such as
+    BitTorrent.
+
+
+
+
+
+
+
