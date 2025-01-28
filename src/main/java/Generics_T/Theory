@@ -1,0 +1,14 @@
+Generics are a way of parametrizing classes. Just as a normal parameter, it changes the internal behaviour of the class
+depending on what kind of data we are passing as a generic. It is a great way of achieving polymorphism.
+
+Many classes of Java Util use these. Such as Map<K,V>. This is the declaration of a generic. They are usually written
+with a capital letter representing an element. But there are no restrictions on the naming of the generic.
+
+In order to instantiate Optional<T> we need to specify what is T. One of the methods inside Optional is get(),
+which returns T. T here is an unknown return type. It could be anything. That T is the same as when we create
+Optional. So the type of data is given when programming, not when creating the code.
+
+So if we do Optional<Boolean>, the get() method would return us a Boolean.
+
+List<E> is another example. It has a method that is add(E e). So if we create a List<String>, when calling add(), it will
+expect a String.

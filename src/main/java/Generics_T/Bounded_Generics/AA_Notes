@@ -1,0 +1,14 @@
+-----------------------------------|
+Generics - Basics                  |
+-----------------------------------|
+
+Java Generics are a way of parametrizing classes and interfaces so that instead of using a specific type of
+data we use a template (<E>).
+
+However, sometimes we need to apply some restrictions. So that we can narrow down the generic. This is called "bound
+types".
+
+A classic example of a generic is a List in Java ---> List<E>. We can make a list of anything: String, Integer, Objects...
+
+But if we want to restrict it so we can, for example, only create String lists, we can narrow it down using classes or
+interfaces.
