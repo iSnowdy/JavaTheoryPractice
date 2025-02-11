@@ -14,5 +14,10 @@ public class Main {
         TPV<PaymentCard> paymentCardTPV = new TPV<>();*/
 
         TPV<OnlineDebitCard> onlineDebitCardTPV = new TPV<>();
+
+        System.out.println("Class name: " + CreditCard.class.toString());
+        System.out.println("Class name: " + CreditCard.class.getName());
+        System.out.println("Class name: " + CreditCard.class.getSimpleName());
+        System.out.println("Class name: " + CreditCard.class.getCanonicalName());
     }
 }

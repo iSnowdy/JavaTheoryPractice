@@ -117,7 +117,6 @@ TCP or Transmission Control Protocol is a connection-oriented protocol, meaning 
 between the two devices before transmitting data. This ensures that the data reaches its destination accurately and in
 the correct order.
 
-
 Key features:
     - Reliability. Ensures all data packets are delivered without a loss.
     - Ordered Delivery. Packets are to arrive at the destination in the same order they were sent.
@@ -142,7 +141,7 @@ and speed. TCP uses a three-way handshake because it involves three steps: SYN, 
     initial sequence number.
     SYN-ACK. The server responds with a SYN-ACK packet. This acknowledges the client's SYN and includes the server's
     initial sequence number.
-    SYN. Finally, the client sends an ACK packet back to the server, confirming the receipt of the server's SYN-ACK
+    SYN. Finally, the client sends an ACK packet back to the server, confirming the receipt of the server's SYN-ACK.
 
     Now, a connection is established and data transfer can begin.
 

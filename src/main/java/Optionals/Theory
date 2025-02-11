@@ -1,0 +1,82 @@
+-----------------------------------|
+Optionals - Basics                 |
+-----------------------------------|
+
+Optional<T> is a class that can manage values that can be or not present, without the necessity of extra
+verifications if they are or not null.
+
+So their main purpose is to avoid NullPointerException (NPE), making the code more safe, legible and less prone
+to errors.
+
+So for example:
+
+public User findUserById(int id) {
+    User user = database.getUserById(id);
+    if (user == null) return new User() OR return null;
+    return user;
+}
+
+In the example above there's a situation where the user is not in the database, thus returning a null object. So when
+we call this methd, we would either receive a null or an empty User. Both options are bad.
+
+public Optional<User> findUserById(int id) {
+    return Optional.ofNullable(database.getUserById(id));
+}
+
+However, in this other case, we use Optional.ofNullable(). Here if the user that is returned by the database is null,
+it will return an empty Optional. This Optional.empty() will not throw an NPE if handled properly.
+
+-----------------------------------|
+Optionals - Creation               |
+-----------------------------------|
+
+There are 3 ways of creating an Optional<T>, depending whether the value it encapsulates can be or not null (applying
+good practices).
+
+    1. Optional.of(T value). This should only be used if we are certain that the value cannot be null, never. The
+    reason being that if the case happens where the value is null, it will throw a NPE.
+    2. Optional.empty(). Created a totally empty Optional. It is equivalent to a null, but safe in the sense that if
+    used or retrieved it will not throw a NPE.
+    3. Optional.ofNullable(T value). This is the one we should use if the value can be null. If the case happens where
+    the value is indeed null, it will not throw a NPE, but instead create an empty Optional.
+
+-----------------------------------|
+Optionals - Retrieval              |
+-----------------------------------|
+
+There are several ways of extracting the value of an Optional, depending whether we want to manage predetermined values,
+exceptions or alternative functions even.
+
+    1. Optional.get(). It is recommended. It will throw a NoSuchElementException if the Optional that is retrieving
+    happens to be empty. So it does not give additional security, which is exactly why we are using Optionals.
+    This should only be used if we are certain that the Optional we are trying to retrieve cannot be null or empty, never.
+    2. Optional.orElse(T defaultValue). If the Optional is empty, it will return the default value that we specify.
+    However, that defaultValue is always evaluated, meaning additional resources can be consumed even if not needed.
+    Furthermore, that resource must be of the same type of <T>. So if we are expecting an Optional<String>, the the
+    defaultValue must also be a String.
+    3. Optional.orElseGet(Supplier<? extends T>). It is similar to orElse, but instead of a value it will execute a
+    function and only if the Optional is empty. It has a better performance compared to orElse since it won't run
+    if the Optional is not empty.
+    4. Optional.orElseThrow(Supplier<? extends X> exceptionSupplier). If the Optional is empty, it will instead throw
+    the exception that is specified. It can be useful if we require the values that the Optional is giving us but
+    we do not obtain them.
+    5. Optional.ifPresent(Consumer<? super T> action). In this case the action specified will only execute if the
+    Optional has values in it; so if the optional is empty, it will not do anything, not even throw a NoSuchElementException
+    or NPE. It is the recommended and elegant way of handling optionals.
+    6. Optional.ifPresentOrElse(Consumer<? super T> action, Runnable emptyAction). It will run an action or function
+    if the value is present or another if the Optional is empty. So for example:
+
+        Optional<String> emptyOptional = Optional.empty();
+        emptyOptional.ifPresentOrElse(
+            value -> System.out.println("I have a value, which is: " + value),
+            () -> System.out.println("My Optional is empty, no value is present")
+        );
+
+A more advanced way of using Optional is modifying the value inside it without even extracting it. Then, if we want,
+after modifying it, extract it. Example:
+
+    Optional<String> lowerOptional = Optional.of("hello");
+    Optional<String> upperCaseOptional = lowerOptional.map(String::toUpperCase);
+
+    This would call a function that will change the String contained inside lowerOptional, without retrieving it,
+    to upper case and then storing it inside upperCaseOptional.

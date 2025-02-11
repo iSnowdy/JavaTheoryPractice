@@ -1,0 +1,123 @@
+-----------------------------------|
+TCP - Server/Client                |
+-----------------------------------|
+
+ServerSocket is a class that represents the server-side of a TCP connection. It acts as a listener, waiting for any
+incoming client connections.
+
+However, ServerSocket cannot communicate directly with the client. In order to do that, it must use an intermediary:
+Socket. So for each client that the ServerSocket receives, we must assign a Socket to it.
+
+Socket represents the end-to-end connection between the server and the client per se. Each socket then represents
+a single connection between a client and a server.
+
+So we could say that ServerSocket represents the server's ability to accept connections, while Socket is what is used
+for the actual communication Server - Client.
+
+In the server side, once we are done with the client (receiving message / sending message back to them), we need to
+close the connection (socket.close()). This is crucial for several reasons:
+    1. Release System Resources. Sockets consume memory. If we do not close it, memory leaks could happen.
+    2. Notifying the client. Closing the connection acts as a notification to the client. It is the server saying
+    that the communication is complete. Without closing the connection, the client might remain waiting for additional
+    data incoming from the server, leading to potential hangs or timeouts.
+    3. Ensuring clean connection. It could also happen that the same client might want to connect again. But they might
+    not be able to due to issues regarding the previous connection not being properly closed.
+
+The same arguments could be done for the client's side. If we do not close the Socket from the client's side, the server
+could end up waiting for more data incoming from the client. And of course, proper resource management.
+
+It is worth noting that every instance of a client has a dedicated Socket, even if they were to disconnect and reconnect
+again. The ServerSocket would simply assign a new Socket to that 'old' client, even if the original socket for it was
+not closed.
+
+Although we could also close the ServerSocket connection using close(), this would shut down completely the server.
+So we would not be able to listen for new client's connections. That is the crucial difference between closing the
+Socket connection and the ServerSocket connection.
+
+We could use try-with-resources to manage the Socket connection. It is a clean and the preferred way of managing
+resources in Java, as we do not leave the closing of the resources to the programmer per se; instead, Java does it for
+us.
+
+When using a try-with-resources, the resources opened will be freed (in this case the Socket closed) at the end of the
+block or if an exception were to occur. This makes the code less error-prone and cleaner. It also avoids using
+'finally' to close resources.
+
+When creating a Socket in the Server side, we only need to specify the PORT. The server's IP is implicit. It listens
+by default to localhost or the public IP. This is because the Server does not need to choose an IP address since it
+simply waits for any clients that knows the correct IP and port to connect to.
+
+On the other hand, the Client is the one responsible for initiating the connection to a server. In order to do this,
+the client must explicitly specify two pieces of information: Host IP and Port. It needs to specify:
+    * Host IP. Because it needs to know the exact location (IP address or hostname) of the server it wants to connect
+    to.
+    * Port. Once the client reaches the server with the IP, it now needs to know which port to connect to.
+
+Analogy: Sending a Letter
+The server is the recipient of the letter. It simply waits at home for the letter, does not need to look for the sender.
+They just stay at their home address (port). The sender, meanwhile, must know the address of the receiver and the
+apartment number (IP / Port).
+
+-----------------------------------|
+Java's I/O API                     |
+-----------------------------------|
+
+Java has several classes dedicated to the input and output of data. They form part of Java's I/O API. They serve
+various purposes when it comes to reading and writing data.
+
+InputStream / OutputStream
+--------------------------
+They are the base classes for all byte stream I/O in Java. Therefore, they handle raw binary data in the form of bytes.
+So they can be used for any kind of data, be it images, videos, any non-text file or text files.
+
+They provide a very low-level control over I/O operations, making them very flexible and general-purpose for
+handling streams of bytes.
+
+On the other hand, since it is low-level, we must manually handle higher-level details such as buffering and encoding.
+
+DataInputStream / DataOutputStream
+----------------------------------
+They provide methods to read and write primitive types of data (e.g., int, float, double, boolean) and UTF strings.
+
+Useful when we need to send or received already structured pieces of data. Since it is intended to work with primitive
+data, it ensures data consistency across different systems. However, it still works with raw bytes. So it has no built-
+in support for buffering or human-readable text.
+
+PrintWriter
+-----------
+It provides methods to write formatted text to an output stream in a very convenient, human-readable way.
+
+It is used to send plain text or formatted data over a stream. For examples in chat applications.
+
+It is a very high-level API that facilitates writing text and supports flushing when used with a stream. However,
+since it is so specialised  it only works with character data, and not binary or primitive data.
+
+BufferedReader / BufferedWriter
+-------------------------------
+They read/write text data from an input/output stream, buffering characters for efficiency.
+
+They are ideal for situations where we need to read/write data efficiently. Often used together with InputStreamReader
+or OutputStreamReader for converting byte streams to characters stream, so they can read it.
+
+They also have readLine() and write(), methods that are very convenient for handling lines of text.
+
+The version that allows to read bytes, and not simply text, is BufferedInputStream / BufferedOutputStream.
+
+ObjectInputStream / ObjectOutputStream
+--------------------------------------
+These classes allow serialization/deserialization of Java objects to/from a stream. Used for sending and receiving
+entire objects over a connection or saving/loading to/from a file.
+
+Basically we use them when working with objects, sending and receiving them.
+
+However it requires classes such as Serializable to be implemented.
+
+-----------------------------------|
+UDP - Server/Client                |
+-----------------------------------|
+
+UDP uses DatagramSocket and DatagramPacket to establish connections and receive/send data as packets.
+
+In order to receive or send data, we usually use a buffer. This buffer is an array of bytes that we fill in with
+the information.
+
+Every time DatagramSocket receives a packet, it overwrites any information that was container in the buffer previously.
